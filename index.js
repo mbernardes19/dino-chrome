@@ -1,3 +1,5 @@
+import Sprite from "./Sprite.js";
+
 // CONFIGURAÇÕES DO CANVAS
 const CANVAS_HEIGHT = window.innerHeight-10;
 const CANVAS_WIDTH = window.innerWidth;
@@ -8,19 +10,28 @@ const ctx = canvas.getContext('2d');
 canvas.setAttribute('height', CANVAS_HEIGHT);
 canvas.setAttribute('width', CANVAS_WIDTH);
 
-//CRIAÇÃO DO RETÂNGULO
-const spriteDino = {x: 0, y: 5, width: 50, height: 50};
+//CRIAÇÃO DO DO DINO
+const dino = {};
+const spritesheet = new Image();
+spritesheet.src = "./spritesheet/spritesheet.png";
+
+const dinoSprite = new Sprite(spritesheet,0,0,1200,55,40,40,10, ctx);
+console.log(dinoSprite.sprites);
+
+criarDino();
+criarSpritesDino();
+console.log(dino.sprites);
+let tick = 0;
+
 
 //GAMELOOP
 function loop(){
-    desenharDino();
-    animarDino();
+    limparTela();
+    andar();
     // limparTela();
-
-    window.requestAnimationFrame(loop);
+    console.log('no loop')
 }
-window.requestAnimationFrame(loop);
-
+setInterval(loop, 800);
 
 // INPUT DE TECLAS
 window.addEventListener('keydown', (e) => {
@@ -40,19 +51,34 @@ window.addEventListener('keydown', (e) => {
 
 
 // FUNÇÕES
-function importarSprite(){
-    const spritesheet = document.querySelector('div');
-    spritesheet.style.backgroundPos
+function criarDino() {
+    dino.altura = 43;
+    dino.largura = 48;
+    dino.imagem = spritesheet;
 }
 
-function animarDino() {
+function criarSpritesDino() {
+    dino.sprites = [];
+    const sprite1 = {sx:938,sy:0,sw:43,sh:48,dx:0,dy:0,dw:43,dh:48};
+    const sprite2 = {sx:981,sy:0,sw:43,sh:48,dx:0,dy:0,dw:43,dh:48};
+
+    dino.sprites.push(sprite1);
+    dino.sprites.push(sprite2);
 
 }
 
-function desenharDino() {
-    const img = new Image();
-    img.src="./spritesheet.png";
-    ctx.drawImage(img, 850,0,44,50,0,0,44,50);
+function andar() {
+    tick++;
+    if (tick % 2 === 0) {
+        ctx.drawImage(spritesheet, dino.sprites[0].sx,dino.sprites[0].sy,
+            dino.sprites[0].sw, dino.sprites[0].sh, dino.sprites[0].dx, dino.sprites[0].dy,
+            dino.sprites[0].dw, dino.sprites[0].dh);
+            
+    } else {
+        ctx.drawImage(spritesheet, dino.sprites[1].sx,dino.sprites[1].sy,
+            dino.sprites[1].sw, dino.sprites[1].sh, dino.sprites[1].dx, dino.sprites[1].dy,
+            dino.sprites[1].dw, dino.sprites[1].dh);
+    }
 }
 
 function detectarColisao(rect1, rect2) {
