@@ -16,7 +16,7 @@ let spritesheet = new Spritesheet(1233, 68, spritesheetImagem);
 let spritesAndar = spritesheet.criarSprites(938,0,43,48,2);
 
 // Cria animação de andar
-let animacaoAndar = new Animacao(spritesAndar,spritesAndar.length,2,5,true,ctx);
+let animacaoAndar = new Animacao(spritesAndar,spritesAndar.length,0,5,ctx);
 
 // Renderiza animação
 animacaoAndar.renderizar();

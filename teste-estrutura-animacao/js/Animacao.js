@@ -1,17 +1,25 @@
 export default class Animacao {
 
-    constructor(sprites, qtdSprites, duracao, fps, loop, canvasCtx) {
+    constructor(sprites, qtdSprites, duracao, fps, canvasCtx) {
         this.sprites = sprites;
         this.qtdSprites = qtdSprites;
         this.duracao = duracao;
         this.fps = 1/fps;
-        this.loop = loop;
         this.canvasCtx = canvasCtx;        
     }
 
     renderizar() {
         let i = 0;
-        setInterval(() => {
+        let comeco = Date.now();
+        
+        const loop = setInterval(() => {
+            const tempo = Date.now();
+            if (this.duracao !== 0) {
+                if (tempo >= comeco+this.duracao*1000) {
+                    clearInterval(loop);
+                }
+            }
+            
             this.canvasCtx.clearRect(0,0, window.innerWidth, window.innerHeight);     
             this.canvasCtx.drawImage(
                 this.sprites[i].spritesheet.imagem,
@@ -27,7 +35,8 @@ export default class Animacao {
 
                 i++;
 
-            this.loop && !this.sprites[i] ? i = 0 : null;
+            this.duracao === 0 && !this.sprites[i] ? i = 0 : null;
+            !this.sprites[i] ? clearInterval(loop) : null;
 
         } , (this.fps*1000));
     }
