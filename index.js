@@ -1,4 +1,4 @@
-import Sprite from "./Sprite.js";
+import Sprite from "./teste/Sprite.js";
 
 // CONFIGURAÇÕES DO CANVAS
 const CANVAS_HEIGHT = window.innerHeight-10;

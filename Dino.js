@@ -1,4 +1,4 @@
-import Sprite from './Sprite.js';
+import Sprite from './teste/js/Sprite.js/index.js';
 
 export default class Dino extends Sprite {
     constructor(largura, altura, velocidade, imagem){
