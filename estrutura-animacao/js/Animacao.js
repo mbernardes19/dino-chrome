@@ -34,6 +34,7 @@ export default class Animacao {
                 ); 
 
                 i++;
+                i = i % this.sprites.length;
 
             this.duracao === 0 && !this.sprites[i] ? i = 0 : null;
             !this.sprites[i] ? clearInterval(loop) : null;

@@ -1,4 +1,8 @@
-import Sprite from "./teste/Sprite.js";
+import FabricaAnimacoes from './classes/FabricaAnimacoes.js';
+import Cenario from './classes/Cenario.js';
+import Input from './classes/Input.js';
+import Obstaculo from './classes/Obstaculo.js';
+import Jogador from './classes/Jogador.js';
 
 // CONFIGURAÇÕES DO CANVAS
 const CANVAS_HEIGHT = window.innerHeight-10;
@@ -11,29 +15,25 @@ canvas.setAttribute('height', CANVAS_HEIGHT);
 canvas.setAttribute('width', CANVAS_WIDTH);
 
 //CRIAÇÃO DO DO DINO
-const dino = {};
-const spritesheet = new Image();
-spritesheet.src = "./spritesheet/spritesheet.png";
-
-const dinoSprite = new Sprite(spritesheet,0,0,1200,55,40,40,10, ctx);
-console.log(dinoSprite.sprites);
-
-criarDino();
-criarSpritesDino();
-console.log(dino.sprites);
-let tick = 0;
-
+const jogador = new Jogador();
 
 //GAMELOOP
 function loop(){
     limparTela();
-    andar();
-    // limparTela();
-    console.log('no loop')
+    jogador.atualizarPontuacao();
+    console.log(jogador.pontuacao);
+    ctx.fillStyle="black";
+    ctx.font = "12pt Arial";
+    ctx.fillText(jogador.pontuacao,50,50);
+    requestAnimationFrame(loop)
 }
-setInterval(loop, 800);
+
+loop();
 
 // INPUT DE TECLAS
+
+
+// FUNÇÕES
 window.addEventListener('keydown', (e) => {
     if(e.code === 'ArrowUp') {
         rect1.y -= 5;
@@ -48,38 +48,6 @@ window.addEventListener('keydown', (e) => {
         rect1.x -= 5;
     }
 })
-
-
-// FUNÇÕES
-function criarDino() {
-    dino.altura = 43;
-    dino.largura = 48;
-    dino.imagem = spritesheet;
-}
-
-function criarSpritesDino() {
-    dino.sprites = [];
-    const sprite1 = {sx:938,sy:0,sw:43,sh:48,dx:0,dy:0,dw:43,dh:48};
-    const sprite2 = {sx:981,sy:0,sw:43,sh:48,dx:0,dy:0,dw:43,dh:48};
-
-    dino.sprites.push(sprite1);
-    dino.sprites.push(sprite2);
-
-}
-
-function andar() {
-    tick++;
-    if (tick % 2 === 0) {
-        ctx.drawImage(spritesheet, dino.sprites[0].sx,dino.sprites[0].sy,
-            dino.sprites[0].sw, dino.sprites[0].sh, dino.sprites[0].dx, dino.sprites[0].dy,
-            dino.sprites[0].dw, dino.sprites[0].dh);
-            
-    } else {
-        ctx.drawImage(spritesheet, dino.sprites[1].sx,dino.sprites[1].sy,
-            dino.sprites[1].sw, dino.sprites[1].sh, dino.sprites[1].dx, dino.sprites[1].dy,
-            dino.sprites[1].dw, dino.sprites[1].dh);
-    }
-}
 
 function detectarColisao(rect1, rect2) {
     if(rect1.x < rect2.x + rect2.width &&
